@@ -1,23 +1,19 @@
 pipeline {
-  agent any
-  stages {
-    stage("build") {
-      steps {
-        echo 'building the application . . '
-      }
+    agent any
+    environment {
+        DEMO = '1.3'
     }
-    
-    stage("test") {
-      steps {
-        echo 'testing the application . . '
-      }
+    stages {
+        stage('stage1') {
+            steps {
+                echo "This is build $BUILD_NUMBER of demo $DEMO"
+                sh '''
+                    echo "Using a multi-line shell step"
+                    chmod +x test.sh
+                    ./test.sh
+                '''
+            }
+
+        }
     }
-    
-    stage("deploy") {
-      steps {
-        echo 'deploying the application . . '
-      }
-    }
-    
-  }
 }
